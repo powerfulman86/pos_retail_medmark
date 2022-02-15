@@ -1,0 +1,14 @@
+<odoo>
+    <data>
+        <record id="pos_medmark_view_pos_session_form" model="ir.ui.view">
+            <field name="name">pos.session</field>
+            <field name="model">pos.session</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_session_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <button name="print_z_report" type="object" string="z report"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
