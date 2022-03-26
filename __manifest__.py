@@ -6,11 +6,14 @@
     'author': "",
     'category': 'Uncategorized',
     'version': '13.0.0.1',
-    'depends': ['base', 'point_of_sale', 'pos_retail'],
+    'depends': ['base', 'point_of_sale', 'pos_retail', 'stock'],
 
     # always loaded
     'data': [
+        'views/import.xml',
         'views/pos_session.xml',
+        'views/payment_method.xml',
+        'views/stock_move_views.xml',
     ],
     'qweb': [
 

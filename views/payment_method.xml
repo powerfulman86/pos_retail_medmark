@@ -1,0 +1,31 @@
+<odoo>
+    <data>
+        <record id="pos_payment_commission" model="ir.ui.view">
+            <field name="name">pos.payment.commission</field>
+            <field name="model">pos.payment.method</field>
+            <field name="inherit_id" ref="point_of_sale.pos_payment_method_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/sheet" position="inside">
+                    <group string="Commission">
+                        <group>
+                            <field name="payment_commission"/>
+                            <field name="commission_account_id"
+                                   attrs="{'invisible': [('payment_commission', '=', False)],'required': [('payment_commission', '!=', False)]}"/>
+                        </group>
+                        <group attrs="{'invisible': [('payment_commission', '=', False)]}">
+                            <field name="commission_type" widget="radio" options="{'horizontal': true}"/>
+                            <field name="commission_value"
+                                   attrs="{'invisible': [('commission_type', '=', 'percent')]}"/>
+                            <field name="commission_percent"
+                                   attrs="{'invisible': [('commission_type', '=', 'fixed')]}"/>
+                        </group>
+                    </group>
+                </xpath>
+
+                <xpath expr="//field[@name='is_customer_required']" position="after">
+                    <field name="is_payment_reference" attrs="{'invisible': [('is_cash_count', '=', True)]}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
