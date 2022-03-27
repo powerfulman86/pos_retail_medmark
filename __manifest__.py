@@ -11,6 +11,7 @@
     # always loaded
     'data': [
         'views/import.xml',
+        'data/cron.xml',
         'views/pos_session.xml',
         'views/payment_method.xml',
         'views/stock_move_views.xml',

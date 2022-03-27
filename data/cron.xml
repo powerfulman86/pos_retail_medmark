@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record forcecreate="True" id="stock_lot_life_date" model="ir.cron">
+            <field name="name">Stock - Lot End Date Update</field>
+            <field name="interval_number">30</field>
+            <field name="active" eval="False"/>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field name="state">code</field>
+            <field name="user_id" ref="base.user_root"/>
+            <field eval="False" name="doall"/>
+            <field name="nextcall"
+                   eval="datetime.now().replace(hour=0, minute=0, second=0).strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="doall" eval="False"/>
+            <field name="model_id" ref="pos_retail_medmark.model_stock_production_lot"/>
+            <field name="code">model._cron_update_life_date()</field>
+        </record>
+    </data>
+</odoo>
