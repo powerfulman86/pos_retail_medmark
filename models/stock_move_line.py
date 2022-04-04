@@ -26,6 +26,11 @@ class ProductionLot(models.Model):
             if exist_stock:
                 rec.life_date = exist_stock.lot_life_date
 
+        match = self.search(['|', ('public_price', '=', False), ('public_price', '=', 0.0)])
+        for rec in match:
+            if rec.product_id.list_price > 0:
+                rec.public_price = rec.product_id.list_price
+
     def name_get(self):
         res = []
         for lot in self:
