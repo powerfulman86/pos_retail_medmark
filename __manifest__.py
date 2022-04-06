@@ -12,6 +12,7 @@
     'data': [
         'views/import.xml',
         'data/cron.xml',
+        'data/report_paperformat_data.xml',
         'views/pos_session.xml',
         'views/payment_method.xml',
         'views/stock_move_views.xml',
