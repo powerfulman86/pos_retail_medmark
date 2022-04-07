@@ -17,7 +17,7 @@
                                 <t t-foreach="range(qty)" t-as="item">
                                     <t t-translation="off">
                                         <div style="display: inline-table; height: 80px; width: 144px;margin: 5px 10px 5px 10px;">
-                                            <div class="row" style="width:100%;height:16px;">
+                                            <div class="row" style="width:100%;height:16px;margin:0px 0px 2px 0px;">
                                                 <div class="col-6" align="left" style="width: 50%;  height: 16px;">
                                                     <t t-if='move.company_id.logo'>
                                                         <img style="display: block;  width: 100%;  height: 100%;"
@@ -32,8 +32,8 @@
                                                     </span>
                                                 </div>
                                             </div>
-                                            <div style="width: 100%;height:36px;margin: 10px 0px 10px 0px;">
-                                                <div align="center" style="height:25.5px;margin: 5px 5px 5px 5px;">
+                                            <div style="width: 100%;height:34px;">
+                                                <div align="center" style="height:24.5px;">
                                                     <t t-if="move_line.lot_name or move_line.lot_id">
                                                         <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', move_line.lot_name, 600, 150)"
                                                              style="width:100%;height:100%" alt="Barcode"/>
@@ -44,7 +44,7 @@
                                                     </t>
                                                 </div>
                                                 <div align="center"
-                                                     style="height:10.5px;font-size: 7px;margin: 0px 0px 0px 0px;">
+                                                     style="height:9.5px;font-size: 7px;">
                                                     <t t-if="move_line.lot_name or move_line.lot_id">
                                                         <t t-esc="move_line.lot_id.name"/>
                                                     </t>
@@ -53,7 +53,7 @@
                                                     </t>
                                                 </div>
                                             </div>
-                                            <div style="width:100%;height:28px;margin: 0px 0px 0px 0px;font-size: 7px;" align="center">
+                                            <div style="width:100%;height:28px;font-size: 7px;" align="center">
                                                 <div>
                                                     <span t-esc="move.product_id.name"/>
                                                 </div>
