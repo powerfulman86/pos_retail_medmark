@@ -2,6 +2,7 @@
 
 from odoo import api, fields, models, tools, _
 from odoo.exceptions import UserError, ValidationError
+from random import randint
 
 
 class StockMoveLine(models.Model):
@@ -9,11 +10,17 @@ class StockMoveLine(models.Model):
 
     lot_life_date = fields.Date(string="Expire Date", required=False, )
 
+    def random_number(self, n):
+        range_start = 10 ** (n - 1)
+        range_end = (10 ** n) - 1
+        return randint(range_start, range_end)
+
     @api.onchange('lot_life_date')
     def set_lot_name(self):
         for ml in self:
             if ml.lot_life_date and not ml.lot_name:
-                ml.lot_name = ml.lot_life_date.strftime("%d/%m/%Y")
+                code = self.random_number(3)
+                ml.lot_name = str(code) + '|' + ml.lot_life_date.strftime("%d/%m/%Y")
 
 
 class ProductionLot(models.Model):
