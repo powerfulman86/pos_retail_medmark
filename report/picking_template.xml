@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-
+        <!--Picking-->
         <template id="label_transfer_template_view_pdf">
             <t t-call="web.basic_layout">
                 <div class="page">
@@ -25,7 +25,8 @@
                                                         <br/>
                                                     </t>
                                                 </div>
-                                                <div class="col-6 row" style="width: 50%;  height: 16px;font-size: 8px;">
+                                                <div class="col-6 row"
+                                                     style="width: 50%;  height: 16px;font-size: 8px;">
                                                     <div align="left" style="width: 50%;">
                                                         <t t-esc="move_line.product_id.list_price"/>
                                                     </div>
@@ -40,8 +41,12 @@
                                                         <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', move_line.lot_name, 600, 150)"
                                                              style="width:100%;height:100%" alt="Barcode"/>
                                                     </t>
-                                                    <t t-else="">
+                                                    <t t-elif="move_line.product_id.barcode">
                                                         <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', move_line.product_id.barcode, 600, 150)"
+                                                             style="width:100%;height:100%" alt="Barcode"/>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', move_line.product_id.default_code, 600, 150)"
                                                              style="width:100%;height:100%" alt="Barcode"/>
                                                     </t>
                                                 </div>
@@ -80,6 +85,63 @@
                 name="pos_retail_medmark.label_transfer_template_view_pdf"
                 file="pos_retail_medmark.label_transfer_template_view_pdf"
                 report_type="qweb-pdf"
+                paperformat="paperformat_batch_deposit_medmark"/>
+
+        <!--Lot Barcode-->
+        <template id="report_lot_label_medmark">
+            <t t-call="web.basic_layout">
+                <div class="page">
+                    <t t-foreach="docs" t-as="o">
+                        <div style="display: inline-table; height: 83px; width: 144px;margin: 7px 10px 0px 10px;">
+                            <div class="row" style="width:100%;height:16px;margin:0px 0px 2px 0px;">
+                                <div class="col-6" align="left" style="width: 50%; height: 16px;">
+                                    <img style="display: block; width: 100%; height: 100%;"
+                                         src="/web/binary/company_logo"
+                                         alt="Logo"/>
+                                    <br/>
+                                </div>
+                                <div class="col-6 row" style="width: 50%; height: 16px;font-size: 8px;">
+                                    <div align="left" style="width: 50%;">
+                                        <t t-esc="o.product_id.list_price"/>
+                                    </div>
+                                    <div align="left" style="width: 50%;">
+                                        <t t-esc="o.company_id.currency_id.symbol"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="width: 100%;height:34px;">
+                                <div align="center" style="height:24.5px;">
+                                    <img t-if="o.name"
+                                         t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.name, 600, 150)"
+                                         style="width:100%;height:100%;"/>
+                                </div>
+                            </div>
+                            <div class="row" style="height:9.5px;font-size: 7px;">
+                                <div class="col-6" align="center">
+                                    <span t-esc="o.product_id.default_code"/>
+                                </div>
+                                <div class="col-6" align="center">
+                                    <t t-esc="o.name"/>
+                                </div>
+                            </div>
+                            <div style="width:100%;height:28px;font-size: 7px;" align="center">
+                                <div>
+                                    <span t-esc="o.product_id.name"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </t>
+        </template>
+
+        <report string="Lot/Serial Number (PDF) - MedMark"
+                id="action_report_lot_label_medmark"
+                model="stock.production.lot"
+                report_type="qweb-pdf"
+                name="pos_retail_medmark.report_lot_label_medmark"
+                file="pos_retail_medmark.report_lot_label_medmark"
+                print_report_name="'Lot-Serial - %s' % object.name"
                 paperformat="paperformat_batch_deposit_medmark"/>
     </data>
 </odoo>

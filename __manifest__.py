@@ -16,7 +16,8 @@
         'views/pos_session.xml',
         'views/payment_method.xml',
         'views/stock_move_views.xml',
-        'views/picking_template.xml',
+        'report/picking_template.xml',
+        'report/product_product_templates.xml',
     ],
     'qweb': [
 
