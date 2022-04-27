@@ -13,17 +13,13 @@ class pos_sale_analytic(models.Model):
     name = fields.Char('Name')
     user_id = fields.Many2one('res.users', 'Sale person', readonly=1)
     date = fields.Datetime(string='Order Date', readonly=1)
-    product_id = fields.Many2one(
-        'product.product', string='Product Variant', readonly=1)
-    product_categ_id = fields.Many2one(
-        'product.category', string='Product Category', readonly=1)
-    pos_categ_id = fields.Many2one(
-        'pos.category', string='Point of Sale Category', readonly=1)
-    product_tmpl_id = fields.Many2one(
-        'product.template', string='Product', readonly=1)
-    company_id = fields.Many2one(
-        'res.company', string='Company', readonly=1)
+    product_id = fields.Many2one('product.product', string='Product Variant', readonly=1)
+    product_categ_id = fields.Many2one('product.category', string='Product Category', readonly=1)
+    pos_categ_id = fields.Many2one('pos.category', string='Point of Sale Category', readonly=1)
+    product_tmpl_id = fields.Many2one('product.template', string='Product', readonly=1)
+    company_id = fields.Many2one('res.company', string='Company', readonly=1)
     origin = fields.Char(string='Origin', readonly=1)
+    default_price = fields.Float('Default Price', digits='Product Price', default=0.0)
     qty = fields.Float(string='Quantity', readonly=1)
     price_unit = fields.Float('Unit Price', digits='Product Price', default=0.0)
     discount = fields.Float(string='Discount (%)', digits='Discount', default=0.0)
@@ -42,6 +38,7 @@ class pos_sale_analytic(models.Model):
             pp.product_tmpl_id AS product_tmpl_id,
             so.company_id AS company_id,
             'Sale Order' AS origin,
+            pt.list_price as default_price,
             sum(sol.product_uom_qty) AS qty,
             sum(sol.price_total) AS sale_total,
             sum(sol.price_unit) as price_unit,
@@ -53,7 +50,7 @@ class pos_sale_analytic(models.Model):
             LEFT JOIN product_template pt ON pt.id = pp.product_tmpl_id
             WHERE so.state NOT IN ('draft', 'sent', 'cancel')
             GROUP BY so.name, so.date_order, sol.product_id, pp.product_tmpl_id,
-            so.company_id, pt.categ_id, pt.pos_categ_id, so.user_id
+            so.company_id, pt.categ_id, pt.pos_categ_id, so.user_id,pt.list_price
         """
         return select
 
@@ -68,6 +65,7 @@ class pos_sale_analytic(models.Model):
             pp.product_tmpl_id AS product_tmpl_id,
             po.company_id AS company_id,
             'Point of Sale' AS origin,
+            pt.list_price as default_price,
             sum(pol.qty) AS qty,
             sum(pol.price_unit * pol.qty - pol.price_unit * pol.qty / 100 * pol.discount) as sale_total,
             sum(pol.price_unit) as price_unit,
@@ -79,7 +77,7 @@ class pos_sale_analytic(models.Model):
             LEFT JOIN product_template pt ON pt.id = pp.product_tmpl_id
             WHERE po.state IN ('paid', 'done', 'invoiced')
             GROUP BY po.name, po.date_order, pol.product_id, pp.product_tmpl_id,
-            po.company_id, pt.categ_id, pt.pos_categ_id, po.user_id
+            po.company_id, pt.categ_id, pt.pos_categ_id, po.user_id,pt.list_price
         """
         return select
 
