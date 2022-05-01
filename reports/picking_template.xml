@@ -56,7 +56,9 @@
                                                     </div>
                                                     <div class="col-6" align="center">
                                                         <t t-if="move_line.lot_name or move_line.lot_id.life_date">
-                                                            <t t-esc="move_line.lot_id.life_date.date()"/>
+                                                            <t t-if="move_line.lot_id.life_date">
+                                                                <t t-esc="move_line.lot_id.life_date.date()"/>
+                                                            </t>
                                                         </t>
                                                         <t t-else="">
                                                             <t t-esc="move_line.product_id.barcode"/>
